@@ -39,7 +39,7 @@ if [[ -f package-lock.json ]]; then npm ci --no-audit --no-fund; else npm instal
 say "Getting the wake word model…"
 npm run --silent fetch-wake-model
 
-say "Building Bea.app for $ARCH…"
+say "Building Bea.app for ${ARCH}…"
 CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --mac dir --"$ARCH" --publish never
 
 APP="$DESKTOP/dist/$OUT/Bea.app"
@@ -51,7 +51,7 @@ codesign --force --deep --sign - "$APP"
 codesign --verify --deep "$APP" && say "Signature OK"
 
 DMG="$DESKTOP/dist/Bea-$ARCH.dmg"
-say "Making $DMG…"
+say "Making ${DMG}…"
 STAGE="$(mktemp -d)"; cp -R "$APP" "$STAGE/"; ln -s /Applications "$STAGE/Applications"
 hdiutil create -volname "Bea" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null
 ditto -c -k --keepParent "$APP" "$DESKTOP/dist/Bea-$ARCH.app.zip"
@@ -61,7 +61,7 @@ if (( INSTALL )); then
   DEST="/Applications"
   [[ -w "$DEST" ]] || DEST="$HOME/Applications"
   mkdir -p "$DEST"
-  pkill -x Bea 2>/dev/null; pkill -x Pom 2>/dev/null || true
+  pkill -x Bea 2>/dev/null || true; pkill -x Pom 2>/dev/null || true
   say "Installing to $DEST/Bea.app…"
   ditto "$APP" "$DEST/Bea.app"
   echo "$DEST/Bea.app" > "$DESKTOP/dist/.installed-path"
