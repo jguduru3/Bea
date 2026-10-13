@@ -44,6 +44,8 @@ jobs:
           - { os: macos-15, label: macos-arm64 }        # Apple silicon
           - { os: macos-15-intel, label: macos-x64 }    # Intel (update the label if GitHub renames its Intel runners)
     runs-on: ${{ matrix.os }}
+    defaults:
+      run: { shell: bash }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -54,22 +56,25 @@ jobs:
       - name: Build Bea's built-in server (and self-test it)
         working-directory: backend
         run: |
-          python -m pip install --upgrade pip
-          pip install -e . "pyinstaller>=6.16"
-          python build_server.py
+          set -o pipefail
+          { python -m pip install --upgrade pip && pip install -e . "pyinstaller>=6.16" && python build_server.py; } 2>&1 | tee build.log \
+            || { bash ../.github/annotate-failure.sh build.log "Server build failed"; exit 1; }
 
       - name: Windows installer
         if: runner.os == 'Windows'
         working-directory: desktop
         env: { CSC_IDENTITY_AUTO_DISCOVERY: "false" }
         run: |
-          npm ci
-          npm run fetch-wake-model
-          npx electron-builder --win nsis --x64 --publish never
+          set -o pipefail
+          { npm ci && npm run fetch-wake-model && npx electron-builder --win nsis --x64 --publish never; } 2>&1 | tee build.log \
+            || { bash ../.github/annotate-failure.sh build.log "Windows build failed"; exit 1; }
 
       - name: macOS app and disk image
         if: runner.os == 'macOS'
-        run: bash ./mac/build-mac.sh --no-install
+        run: |
+          set -o pipefail
+          bash ./mac/build-mac.sh --no-install 2>&1 | tee build.log \
+            || { bash .github/annotate-failure.sh build.log "macOS build failed"; exit 1; }
 
       - uses: actions/upload-artifact@v4
         with:
