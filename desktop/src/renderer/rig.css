@@ -1,0 +1,37 @@
+.pom-rig{position:relative;width:var(--pom-size,200px);aspect-ratio:520/600;user-select:none;-webkit-user-select:none}
+.pom-rig .rig-motion{position:absolute;inset:0;transform-origin:50% 97%;will-change:transform}
+.pom-rig img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
+.pom-rig .body{filter:drop-shadow(0 8px 14px rgba(0,0,0,.22))}
+.pom-rig .antenna{transform-origin:53.46% 26%;will-change:transform}
+.pom-rig .face{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.pom-rig .rig-fx{position:absolute;inset:0;pointer-events:none;overflow:visible}
+
+.fx{position:absolute;transform:translate(-50%,-50%);pointer-events:none;line-height:1;font-family:"Fredoka","Nunito",ui-rounded,system-ui,sans-serif;font-weight:700}
+.fx svg{display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}
+.fx-heart{animation:fxRise 1.6s ease-out forwards}
+.fx-note{color:#2a70bb;font-size:calc(var(--pom-size,200px)*.13);animation:fxRise 1.6s ease-out forwards}
+.fx-sparkle{animation:fxTwinkle 1s ease-out forwards}
+.fx-zzz{color:#e9f1ff;-webkit-text-stroke:1.5px #2a4f86;font-size:calc(var(--pom-size,200px)*.14*var(--s,1));animation:fxZ 2.6s ease-out forwards}
+.fx-question,.fx-exclaim{font-size:calc(var(--pom-size,200px)*.26);color:#fff;-webkit-text-stroke:3px #1d3f73;paint-order:stroke;animation:fxPop 1.8s cubic-bezier(.3,1.6,.5,1) forwards}
+.fx-exclaim{color:#ffd23f}
+.fx-steam{animation:fxSteam 1.2s ease-out forwards}
+.fx-tear{width:calc(var(--pom-size,200px)*.05);height:calc(var(--pom-size,200px)*.07);background:#8fd0ff;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;animation:fxTear .8s ease-in forwards}
+.fx-wave{width:calc(var(--pom-size,200px)*.9);aspect-ratio:1;border:3px solid rgba(120,200,255,.7);border-radius:50%;animation:fxRing 1.3s ease-out forwards}
+.fx-dots{display:flex;gap:6px;background:#fff;padding:8px 12px;border-radius:18px;box-shadow:0 4px 10px rgba(0,0,0,.2);animation:fxPop 4s ease-out forwards}
+.fx-dots i{width:9px;height:9px;border-radius:50%;background:#2a70bb;animation:fxDot 1s ease-in-out infinite}
+.fx-dots i:nth-child(2){animation-delay:.15s}.fx-dots i:nth-child(3){animation-delay:.3s}
+.fx-drool{width:10px;height:18px;background:#bfe6ff;border-radius:0 0 50% 50%;animation:fxTear 2s ease-in forwards}
+.fx-orbit{color:#ffd23f;-webkit-text-stroke:1px #c98600;font-size:calc(var(--pom-size,200px)*.11);animation:fxOrbit 1.2s linear infinite;animation-delay:var(--d,0s)}
+.fx-confetti{width:9px;height:14px;background:hsl(var(--h),90%,60%);border-radius:2px;animation:fxConfetti 1.6s cubic-bezier(.2,.6,.4,1) forwards}
+
+@keyframes fxRise{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}15%{opacity:1;transform:translate(-50%,-50%) scale(var(--s,1))}100%{opacity:0;transform:translate(calc(-50% + var(--dx,0px)),-260%) scale(var(--s,1))}}
+@keyframes fxTwinkle{0%{opacity:0;transform:translate(-50%,-50%) scale(0) rotate(0)}40%{opacity:1;transform:translate(-50%,-50%) scale(var(--s,1)) rotate(45deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(0) rotate(90deg)}}
+@keyframes fxZ{0%{opacity:0;transform:translate(-50%,-50%)}20%{opacity:1}100%{opacity:0;transform:translate(60%,-420%) rotate(-15deg)}}
+@keyframes fxPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}15%{opacity:1;transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-80%) scale(1)}}
+@keyframes fxSteam{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,-260%) scale(1.3)}}
+@keyframes fxTear{0%{opacity:.9;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(calc(-50% + var(--dx,0px)),260%)}}
+@keyframes fxRing{0%{opacity:.9;transform:translate(-50%,-50%) scale(.6)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.25)}}
+@keyframes fxDot{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes fxOrbit{from{transform:translate(-50%,-50%) rotate(0) translateX(calc(var(--pom-size,200px)*.32)) rotate(0) scaleY(.5)}to{transform:translate(-50%,-50%) rotate(360deg) translateX(calc(var(--pom-size,200px)*.32)) rotate(-360deg) scaleY(.5)}}
+@keyframes fxConfetti{0%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),160%) rotate(var(--r))}}
+@media (prefers-reduced-motion: reduce){.fx{animation-duration:.01s!important}}

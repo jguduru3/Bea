@@ -1,0 +1,14 @@
+node_modules/
+dist/
+__pycache__/
+.pytest_cache/
+*.db
+.env
+.venv/
+work/
+.pom_secret
+desktop/resources/wake-model.tar.gz
+backend/data/
+backend/build/
+backend/dist/
+*.egg-info/

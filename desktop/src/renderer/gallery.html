@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'">
+<title>Bea · Emotion gallery</title>
+<link rel="stylesheet" href="rig.css">
+<style>
+  body{margin:0;background:#eef4fb;font:600 14px system-ui,sans-serif;color:#15203a;padding:24px}
+  h1{font-size:22px;margin:0 0 16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px}
+  .cell{background:#fff;border-radius:16px;padding:14px 10px 10px;display:grid;justify-items:center;gap:6px;box-shadow:0 6px 18px -12px rgba(0,0,0,.3)}
+  .cell .pom-rig{--pom-size:140px}
+</style>
+</head>
+<body>
+<h1>Bea emotions</h1>
+<div class="grid" id="grid"></div>
+<script src="rig.js"></script>
+<script src="gallery.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data:; connect-src 'self'">
+<title>Bea</title>
+<link rel="stylesheet" href="rig.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div id="pet" class="pet" aria-label="Bea">
+    <div class="rig-host" id="rigHost"></div>
+    <div class="hit" id="hit" data-hit title=""></div>
+  </div>
+
+  <div class="chip" id="focusChip" hidden data-hit></div>
+  <div class="bubble" id="bubble" role="status" aria-live="polite" data-hit></div>
+
+  <div class="menu" id="menu" hidden data-hit role="menu">
+    <div class="menu-head"><span class="hearts" id="hearts">♥ 0</span><span id="menuMood">neutral</span></div>
+    <button data-cmd="chat" role="menuitem">Chat <kbd id="kbdChat">Ctrl ⇧ Space</kbd></button>
+    <button data-cmd="talk" role="menuitem">Talk to Bea</button>
+    <button data-cmd="focus" role="menuitem" id="focusItem">Focus timer · 25 min</button>
+    <div class="moves" role="group" aria-label="Moves">
+      <button data-move="dance" role="menuitem">Dance</button>
+      <button data-move="jump" role="menuitem">Jump</button>
+      <button data-move="run" role="menuitem">Run</button>
+      <button data-move="spin" role="menuitem">Spin</button>
+      <button data-move="wave" role="menuitem">Wave</button>
+      <button data-move="hide" role="menuitem">Hide</button>
+      <button data-move="celebrate" role="menuitem">Party</button>
+      <button data-move="stretch" role="menuitem">Stretch</button>
+    </div>
+    <button data-cmd="showcase" role="menuitem">Show all emotions</button>
+    <button data-cmd="sleep" role="menuitem" id="sleepItem">Nap time</button>
+    <hr>
+    <button data-cmd="settings" role="menuitem">Settings…</button>
+    <button data-cmd="hide" role="menuitem">Hide Bea for 10 min</button>
+  </div>
+
+  <section class="panel" id="panel" hidden data-hit aria-label="Chat with Bea">
+    <header>
+      <div class="who"><b id="pomName">Bea</b><span id="status">Here for you</span></div>
+      <button class="icon" id="agentBtn" title="Agent mode: Bea plans and uses her tools and apps" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></button>
+      <button class="icon" id="hubBtn" title="Bea Hub: activity, approvals, goals, apps"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></button>
+      <button class="icon" id="speakBtn" title="Speak replies" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="on" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none"/><path class="off" d="M16 9l5 6M21 9l-5 6" fill="none"/></svg></button>
+      <button class="icon" id="newBtn" title="New conversation"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none"/></svg></button>
+      <button class="icon" id="closeBtn" title="Close (Esc)"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none"/></svg></button>
+    </header>
+    <div class="log" id="log" aria-live="polite"></div>
+    <div class="suggest" id="suggest"></div>
+    <form class="composer" id="composer">
+      <select id="lang" title="Language"></select>
+      <textarea id="input" rows="1" placeholder="Ask Bea anything…" aria-label="Message"></textarea>
+      <button type="button" class="icon mic" id="micBtn" title="Talk (hold Space in an empty box)"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none"/></svg><i class="level" id="micLevel"></i></button>
+      <button type="submit" class="icon send" id="sendBtn" title="Send"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5L4 12z"/></svg></button>
+    </form>
+  </section>
+
+  <script src="rig.js"></script>
+  <script src="motion.js"></script>
+  <script src="preview-bridge.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

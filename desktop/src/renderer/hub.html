@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+<title>Bea Hub</title>
+<link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<nav class="side" aria-label="Sections">
+  <div class="brand"><img src="assets/tray.png" alt="" width="34" height="34"><b>Bea Hub</b></div>
+  <button data-tab="activity">Activity</button>
+  <button data-tab="approvals">Approvals <span class="badge" id="apBadge" hidden></span></button>
+  <button data-tab="goals">Goals</button>
+  <button data-tab="schedules">Schedules</button>
+  <button data-tab="memory">Memory</button>
+  <button data-tab="documents">Documents</button>
+  <button data-tab="connections">Connections</button>
+  <div class="grow"></div>
+  <p class="foot" id="foot"></p>
+</nav>
+<main id="main" tabindex="-1">
+  <header class="top"><h1 id="title"></h1><div class="actions" id="actions"></div></header>
+  <div id="view"></div>
+</main>
+<script src="hub.js"></script>
+</body>
+</html>

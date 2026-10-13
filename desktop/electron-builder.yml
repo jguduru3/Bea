@@ -1,0 +1,49 @@
+appId: in.betteranalytics.pom
+productName: Bea
+copyright: Copyright © 2026 Better Analytics
+directories:
+  output: dist
+  buildResources: build
+files:
+  - src/**/*
+  - package.json
+  - "!src/renderer/gallery.*"
+extraResources:
+  # offline speech model for the "Hey Bea" wake word (npm run fetch-wake-model)
+  - from: resources/wake-model.tar.gz
+    to: wake-model.tar.gz
+  # all-in-one installs: Bea's own server and browser (cd backend && python build_server.py)
+  - from: ../backend/dist/bea-server
+    to: bea-server
+win:
+  target:
+    - target: nsis
+      arch: [x64]  # the bundled server is built for x64 (runs on ARM Windows through emulation)
+  icon: build/icon.ico
+nsis:
+  artifactName: Bea-Setup-${version}.exe
+  include: build/installer.nsh
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  shortcutName: Bea
+mac:
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  icon: build/icon.png
+  category: public.app-category.productivity
+  hardenedRuntime: true
+  # No Apple certificate needed for your own Macs: build-mac.sh signs the app ad hoc.
+  # For company-wide distribution set CSC_LINK / CSC_KEY_PASSWORD and remove this line.
+  identity: null
+  darkModeSupport: true
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    NSMicrophoneUsageDescription: Bea listens when you press the microphone button or say "Hey Bea" so you can talk to her.
+    LSUIElement: true
+linux:
+  target: [AppImage]
+  icon: build/icon.png

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- The speech engine (Emscripten build of Vosk) runs WebAssembly in a worker made from a blob and
+     uses eval for its glue code, hence blob:, 'wasm-unsafe-eval' and 'unsafe-eval'. That is acceptable
+     only because this page is isolated: hidden, sandboxed, no UI, no Node, and connect-src 'self'
+     means it can only load Bea's own files (it cannot send anything anywhere). Keep it that way. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' blob: 'wasm-unsafe-eval' 'unsafe-eval'; worker-src blob:; connect-src 'self' data:">
+<title>Bea wake word</title>
+</head>
+<body>
+<script src="vosk.js"></script>
+<script src="wake-match.js"></script>
+<script src="wake.js"></script>
+</body>
+</html>

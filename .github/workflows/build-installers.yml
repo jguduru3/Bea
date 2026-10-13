@@ -1,0 +1,93 @@
+# Builds Bea's all-in-one installers: Windows .exe (x64) and macOS .dmg / .app (Apple silicon and Intel).
+# Run it from the Actions tab ("Run workflow"), or push a tag like v1.0.0. Download the installers
+# from the run's "Artifacts" section (and from the GitHub Release when you push a tag).
+name: Build installers
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write # attach installers to a release when a tag is pushed
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - name: Backend tests
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+          python -m playwright install --with-deps chromium
+          python -m pytest -q
+      - name: Desktop tests
+        working-directory: desktop
+        run: |
+          npm ci
+          npm test
+          npm run check
+
+  build:
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: windows-latest, label: windows-x64 }
+          - { os: macos-15, label: macos-arm64 }        # Apple silicon
+          - { os: macos-15-intel, label: macos-x64 }    # Intel (update the label if GitHub renames its Intel runners)
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+
+      - name: Build Bea's built-in server (and self-test it)
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e . "pyinstaller>=6.16"
+          python build_server.py
+
+      - name: Windows installer
+        if: runner.os == 'Windows'
+        working-directory: desktop
+        env: { CSC_IDENTITY_AUTO_DISCOVERY: "false" }
+        run: |
+          npm ci
+          npm run fetch-wake-model
+          npx electron-builder --win nsis --x64 --publish never
+
+      - name: macOS app and disk image
+        if: runner.os == 'macOS'
+        run: ./mac/build-mac.sh --no-install
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Bea-${{ matrix.label }}
+          path: |
+            desktop/dist/Bea-Setup-*.exe
+            desktop/dist/Bea-*.dmg
+            desktop/dist/Bea-*.app.zip
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { path: installers, merge-multiple: true }
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: installers/*
+          generate_release_notes: true

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+<title>Bea settings</title>
+<link rel="stylesheet" href="settings.css">
+</head>
+<body>
+<main>
+  <header>
+    <img src="assets/tray.png" alt="" width="48" height="48">
+    <div><h1>Bea settings</h1><p>Bea's connection, keys, voice and wake word. Your keys and token are stored encrypted.</p></div>
+  </header>
+
+  <form id="form">
+    <fieldset>
+      <legend>Connection</legend>
+      <label class="check" id="builtInRow" hidden><input id="useBuiltInServer" type="checkbox"> Use Bea's built-in server on this computer</label>
+      <p class="hint" id="builtInHint" hidden>Everything runs on this computer. Untick to connect to a shared company server instead.</p>
+      <div id="remoteFields">
+      <label for="backendUrl">Server address</label>
+      <input id="backendUrl" type="url" placeholder="https://pom.yourcompany.com" required>
+      <label for="token">Device token</label>
+      <input id="token" type="password" autocomplete="off" spellcheck="false" placeholder="pom_…">
+      <p class="hint" id="tokenHint">Ask your admin for a token, or run <code>python -m app.cli create-token "My laptop"</code> on the server.</p>
+      </div>
+      <div class="row">
+        <button type="button" id="test" class="ghost">Test connection</button>
+        <span id="testResult" role="status"></span>
+      </div>
+    </fieldset>
+
+    <fieldset id="keys">
+      <legend>API keys</legend>
+      <p class="hint">Claude is Bea's main brain, OpenAI is her backup, and Sarvam is her voice. Each key is checked with the provider before it's saved, stored encrypted on the Bea server and never kept on this computer.</p>
+      <p class="hint bad" id="keysNotice" hidden></p>
+      <div id="keyList" class="keylist" aria-live="polite"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Bea</legend>
+      <label for="userName">What should Bea call you?</label>
+      <input id="userName" type="text" maxlength="40" placeholder="Your first name">
+      <label for="language">Language</label>
+      <select id="language">
+        <option value="en-IN">English</option><option value="hi-IN">Hindi</option><option value="te-IN">Telugu</option>
+        <option value="ta-IN">Tamil</option><option value="kn-IN">Kannada</option><option value="ml-IN">Malayalam</option>
+        <option value="mr-IN">Marathi</option><option value="bn-IN">Bengali</option><option value="gu-IN">Gujarati</option>
+        <option value="pa-IN">Punjabi</option><option value="od-IN">Odia</option>
+      </select>
+      <label for="petSize">Size <output id="sizeOut"></output></label>
+      <input id="petSize" type="range" min="110" max="320" step="10">
+      <label class="check"><input id="speakReplies" type="checkbox"> Speak replies aloud (Sarvam AI voice)</label>
+      <label class="check"><input id="launchAtLogin" type="checkbox"> Start Bea when I log in</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Agent and voice</legend>
+      <label class="check"><input id="agentMode" type="checkbox"> Agent mode: Bea plans, researches, uses her browser and your connected apps</label>
+      <p class="hint">Anything that sends, books, buys or changes data waits for your approval. Review everything in <a href="#" id="openHub">Bea Hub</a>.</p>
+      <label class="check"><input id="wakeWord" type="checkbox"> Wake word: say “Bea” or “Hey Bea” to start talking</label>
+      <p class="hint" id="wakeHint">Listening happens on this computer; nothing is sent until Bea hears her name.</p>
+    </fieldset>
+
+    <div class="actions">
+      <span id="saved" role="status"></span>
+      <button type="submit" class="primary">Save</button>
+    </div>
+  </form>
+</main>
+<script src="settings.js"></script>
+</body>
+</html>

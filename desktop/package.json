@@ -1,0 +1,26 @@
+{
+  "name": "pom-desktop",
+  "productName": "Bea",
+  "version": "1.0.0",
+  "description": "Bea, a fluffy desktop companion and AI assistant",
+  "author": "Better Analytics",
+  "license": "UNLICENSED",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "check": "node --check src/main/main.js && node --check src/main/api.js && node --check src/main/store.js && node --check src/preload/preload.js && node --check src/renderer/app.js && node --check src/renderer/rig.js && node --check src/renderer/settings.js && node --check src/renderer/hub.js && node --check src/renderer/wake.js && node --check src/renderer/wake-match.js",
+    "dist:win": "npm run fetch-wake-model && electron-builder --win",
+    "dist:mac": "npm run fetch-wake-model && electron-builder --mac",
+    "dist": "npm run fetch-wake-model && electron-builder",
+    "test": "node --test \"test/**/*.test.js\"",
+    "fetch-wake-model": "node scripts/fetch-wake-model.js"
+  },
+  "devDependencies": {
+    "electron": "33.2.1",
+    "electron-builder": "25.1.8"
+  },
+  "dependencies": {
+    "vosk-browser": "^0.0.8"
+  }
+}

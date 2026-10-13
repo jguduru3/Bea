@@ -1,0 +1,32 @@
+# Production-style stack: API + PostgreSQL.
+#   cp .env.example .env   (fill in keys)
+#   docker compose up -d --build
+#   docker compose exec api python -m app.cli create-token "My laptop"
+services:
+  api:
+    build: .
+    env_file: .env
+    environment:
+      POM_DATABASE_URL: postgresql+asyncpg://pom:${POSTGRES_PASSWORD:-pom}@db:5432/pom
+      POM_ENV: production
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pom
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pom}
+      POSTGRES_DB: pom
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pom"]
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
+volumes:
+  pgdata:
