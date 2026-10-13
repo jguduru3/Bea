@@ -13,7 +13,7 @@
     "dist:win": "npm run fetch-wake-model && electron-builder --win",
     "dist:mac": "npm run fetch-wake-model && electron-builder --mac",
     "dist": "npm run fetch-wake-model && electron-builder",
-    "test": "node --test \"test/**/*.test.js\"",
+    "test": "node test/run.js",
     "fetch-wake-model": "node scripts/fetch-wake-model.js"
   },
   "devDependencies": {
