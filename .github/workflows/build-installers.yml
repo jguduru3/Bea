@@ -57,7 +57,7 @@ jobs:
         working-directory: backend
         run: |
           set -o pipefail
-          { python -m pip install --upgrade pip && pip install -e . "pyinstaller>=6.16" && python build_server.py; } 2>&1 | tee build.log \
+          { python -m pip install --upgrade pip && pip install --only-binary=cryptography -e . "pyinstaller>=6.16" && python build_server.py; } 2>&1 | tee build.log \
             || { bash ../.github/annotate-failure.sh build.log "Server build failed"; exit 1; }
 
       - name: Windows installer

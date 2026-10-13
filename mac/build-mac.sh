@@ -28,7 +28,8 @@ if [[ ! -x "$ROOT/backend/dist/bea-server/bea-server" ]]; then
   fi
   [[ -x "$PY" ]] || die "Python 3.10+ is needed to build Bea's server (brew install python@3.12)."
   "$PY" -m pip install --quiet --upgrade pip
-  "$PY" -m pip install --quiet -e "$ROOT/backend" "pyinstaller>=6.16"
+  # ready-made cryptography wheels bundle their own OpenSSL; a source build links one PyInstaller can clash with
+  "$PY" -m pip install --quiet --only-binary=cryptography -e "$ROOT/backend" "pyinstaller>=6.16"
   (cd "$ROOT/backend" && "$PY" build_server.py)
 fi
 
