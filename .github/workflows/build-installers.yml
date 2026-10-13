@@ -69,7 +69,7 @@ jobs:
 
       - name: macOS app and disk image
         if: runner.os == 'macOS'
-        run: ./mac/build-mac.sh --no-install
+        run: bash ./mac/build-mac.sh --no-install
 
       - uses: actions/upload-artifact@v4
         with:
